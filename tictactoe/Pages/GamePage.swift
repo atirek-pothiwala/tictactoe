@@ -11,6 +11,7 @@ struct GamePage: View {
     
     @Environment(\.dismiss) private var dimiss
     @StateObject private var logic: GameLogic
+    @State private var showAlert: Bool = false
     
     init(_ gameplay: Gameplay) {
         self._logic = StateObject(wrappedValue: GameLogic(gameplay))
@@ -35,26 +36,20 @@ struct GamePage: View {
                       onTap: logic.onPlayerMove(_:)
             )
             
-            Button {
-                logic.reset()
-            } label: {
-                Text("Reset Game")
-                    .bold()
-                    .foregroundStyle(Color.accentColor)
+            ButtonView("Reset Game") {
+                showAlert = true
             }
-            .padding(.vertical, 5)
-            .padding(.horizontal, 10)
-            .background {
-                ZStack(alignment: .center) {
-                    Capsule()
-                        .stroke(lineWidth: 2)
-                        .foregroundStyle(Color.accentColor)
-                    Capsule()
-                        .foregroundStyle(Color.dark)
-                }
-            }
-        
+            .padding(.top, 25)
         }
+        .alert("Game Reset?", isPresented: $showAlert, actions: {
+            Button("Cancel", role: .cancel) {
+                showAlert = false
+            }
+            Button("Reset", role: .destructive) {
+                logic.reset()
+            }
+        })
+        .tint(.white)
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button {
