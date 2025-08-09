@@ -10,33 +10,33 @@ import SwiftUI
 struct GamePage: View {
     
     @Environment(\.dismiss) private var dimiss
-    @StateObject private var vm: GameVM
+    @StateObject private var logic: GameLogic
     
     init(_ gameplay: Gameplay) {
-        self._vm = StateObject(wrappedValue: GameVM(gameplay))
+        self._logic = StateObject(wrappedValue: GameLogic(gameplay))
     }
     
     var body: some View {
         VStack(alignment: .center, spacing: 25) {
             
             VersusView(
-                gameplay: vm.gameplay,
-                status: $vm.status,
-                player: $vm.currentPlayer
+                gameplay: logic.gameplay,
+                status: $logic.status,
+                player: $logic.currentPlayer
             )
             
             StatusView(
-                status: $vm.status,
-                player: $vm.currentPlayer
+                status: $logic.status,
+                player: $logic.currentPlayer
             )
             
-            BoardView(board: $vm.board,
-                      status: $vm.status,
-                      onTap: vm.onPlayerMove(_:)
+            BoardView(board: $logic.board,
+                      status: $logic.status,
+                      onTap: logic.onPlayerMove(_:)
             )
             
             Button {
-                vm.reset()
+                logic.reset()
             } label: {
                 Text("Reset Game")
                     .bold()
@@ -63,22 +63,22 @@ struct GamePage: View {
                     HStack(spacing: 5) {
                         Image(systemName: "chevron.left")
                             .imageScale(.large)
-                        Text(vm.gameplay.navigationTitle)
+                        Text(logic.gameplay.navigationTitle)
                             .bold()
                     }
                 }
                 .foregroundStyle(Color.main)
             }
             
-            if vm.gameplay == .solo {
+            if logic.gameplay == .solo {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Picker("Difficulty", selection: $vm.difficulty) {
+                    Picker("Difficulty", selection: $logic.difficulty) {
                         ForEach(Difficulty.allCases) { difficulty in
                             Text(difficulty.rawValue)
                                 .tag(difficulty)
                         }
                     }
-                    .tint(vm.difficulty.color)
+                    .tint(logic.difficulty.color)
                     .pickerStyle(MenuPickerStyle())
                 }
             }

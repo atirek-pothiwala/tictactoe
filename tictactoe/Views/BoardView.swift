@@ -47,6 +47,6 @@ struct BoardView: View {
 }
 
 #Preview {
-    @Previewable @StateObject var vm = GameVM(.multiplayer)
+    @Previewable @StateObject var vm = GameLogic(.multiplayer)
     BoardView(board: $vm.board, status: $vm.status, onTap: vm.onPlayerMove)
 }

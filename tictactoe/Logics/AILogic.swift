@@ -1,5 +1,5 @@
 //
-//  AI.swift
+//  AILogic.swift
 //  tictactoe
 //
 //  Created by Atirek Pothiwala on 09/08/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AI {
+struct AILogic {
     /// Returns the best move index for AI ("O") using the Minimax algorithm
     static func bestMove(for board: [Player?], in difficulty: Difficulty) -> Int? {
         let availableMoves = board.indices.filter { board[$0] == nil }

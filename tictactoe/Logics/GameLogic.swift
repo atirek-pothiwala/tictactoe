@@ -1,5 +1,5 @@
 //
-//  GameVM.swift
+//  GameLogic.swift
 //  tictactoe
 //
 //  Created by Atirek Pothiwala on 09/08/25.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUICore
 
-class GameVM: ObservableObject {
+class GameLogic: ObservableObject {
     let gameplay: Gameplay
     
     init(_ gameplay: Gameplay) {
@@ -26,11 +26,11 @@ class GameVM: ObservableObject {
     }
     
     private func checkWinner() -> Bool {
-        return AI.checkWin(board, player: currentPlayer)
+        return AILogic.checkWin(board, player: currentPlayer)
     }
         
     private func checkDraw() -> Bool {
-        return AI.isBoardFull(board)
+        return AILogic.isBoardFull(board)
     }
     
     public func onPlayerMove(_ index: Int) {
@@ -46,7 +46,7 @@ class GameVM: ObservableObject {
     }
     
     private func onComputerMove() {
-        if let aiIndex = AI.bestMove(for: board, in: difficulty) {
+        if let aiIndex = AILogic.bestMove(for: board, in: difficulty) {
             guard board[aiIndex] == nil && status == .playing else {
                 return
             }
