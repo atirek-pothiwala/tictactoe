@@ -69,6 +69,19 @@ struct GamePage: View {
                 }
                 .foregroundStyle(Color.main)
             }
+            
+            if vm.gameplay == .solo {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Picker("Difficulty", selection: $vm.difficulty) {
+                        ForEach(Difficulty.allCases) { difficulty in
+                            Text(difficulty.rawValue)
+                                .tag(difficulty)
+                        }
+                    }
+                    .tint(vm.difficulty.color)
+                    .pickerStyle(MenuPickerStyle())
+                }
+            }
         }
         .navigationBarBackButtonHidden()
         .safeAreaPadding()
@@ -79,6 +92,6 @@ struct GamePage: View {
 
 #Preview {
     NavigationView {
-        GamePage(.multiplayer)
+        GamePage(.solo)
     }
 }
